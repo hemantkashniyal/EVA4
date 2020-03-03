@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .base import InternalBlock, TransitionBlock, GAPBlock
+from .base import InternalBlock, TransitionBlock, GAPBlock, DeepthSeparableBlock
 
 class CIFAR10Net(nn.Module):
     def __init__(self, dropout=0):
@@ -33,7 +33,7 @@ class CIFAR10Net(nn.Module):
         )
 
         self.internal_block2 = nn.Sequential(
-            InternalBlock(in_channels=32, out_channels=64, kernel_size=(3,3), padding=1, dropout=dropout),  # in: 8x8x32 out: 8x8x64 rf: 54
+            DeepthSeparableBlock(in_channels=32, out_channels=64, kernel_size=(3,3), padding=1, dropout=dropout),  # in: 8x8x32 out: 8x8x64 rf: 54
             InternalBlock(in_channels=64, out_channels=128, kernel_size=(3,3), padding=1, dropout=dropout),   # in:8x8x64 out: 8x8x128 rf: 56
         )
 
