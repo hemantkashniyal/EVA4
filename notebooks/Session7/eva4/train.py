@@ -83,8 +83,7 @@ def train_epoch(model, device, train_loader, optimizer, epoch, train_losses, tra
     pbar.set_description(desc= f'Loss={loss.item()} Batch_id={batch_idx} Accuracy={100*correct/processed:0.2f}')
     accuracy = 100*correct/processed
     train_acc.append(accuracy)
-    return accuracy
-
+  
 def test_epoch(model, device, test_loader, test_losses, test_acc):
     model.eval()
     test_loss = 0
