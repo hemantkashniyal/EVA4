@@ -1,0 +1,12 @@
+jupyterlab:
+  image: jupyter/all-spark-notebook
+  ports:
+    - "28888:8888"
+  environment: 
+    - GRANT_SUDO=yes
+    - JUPYTER_ENABLE_LAB=yes
+    - PYTHONDONTWRITEBYTECODE=true
+  user: root
+  volumes:
+    - ../../:/home/jovyan/workspace
+  entrypoint: start-notebook.sh --NotebookApp.token='' --NotebookApp.password='' --NotebookApp.allow_origin='*' --ip 0.0.0.0

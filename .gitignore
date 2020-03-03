@@ -129,3 +129,6 @@ dmypy.json
 .pyre/
 
 .history
+.ipynb_checkpoints
+notebooks/data/
+.DS_Store
