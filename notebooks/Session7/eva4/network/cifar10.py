@@ -15,7 +15,7 @@ class CIFAR10Net(nn.Module):
             InternalBlock(in_channels=3, out_channels=16, kernel_size=(3,3), padding=1, dropout=dropout),   # in: 32x32x3 out: 32x32x16 rf: 3
             InternalBlock(in_channels=16, out_channels=32, kernel_size=(3,3), padding=1, dropout=dropout),  # in: 32x32x16 out: 32x32x32 rf:5
             InternalBlock(in_channels=32, out_channels=64, kernel_size=(3,3), padding=1, dilation=2, dropout=dropout),   # in: 32x32x32 out: 32x32x64 rf: 9
-            InternalBlock(in_channels=64, out_channels=128, kernel_size=(3,3), padding=1, dilation=2, dropout=dropout),   # in: 32x32x64 out: 32x32x128 rf: 11
+            DeepthSeparableBlock(in_channels=64, out_channels=128, kernel_size=(3,3), padding=1, dilation=2, dropout=dropout),   # in: 32x32x64 out: 32x32x128 rf: 11
         )
 
         self.input_transition_block = nn.Sequential(
@@ -25,7 +25,7 @@ class CIFAR10Net(nn.Module):
         self.internal_block1 = nn.Sequential(
             InternalBlock(in_channels=32, out_channels=64, kernel_size=(3,3), padding=1, dropout=dropout),  # in: 16x16x32 out: 16x16x64 rf: 24
             InternalBlock(in_channels=64, out_channels=128, kernel_size=(3,3), padding=1, dropout=dropout),   # in: 16x16x64 out: 16x16x128 rf: 26
-            InternalBlock(in_channels=128, out_channels=256, kernel_size=(3,3), padding=1, dropout=dropout),  # in: 16x16x32 out: 16x16x64 rf: 24
+            DeepthSeparableBlock(in_channels=128, out_channels=256, kernel_size=(3,3), padding=1, dropout=dropout),  # in: 16x16x32 out: 16x16x64 rf: 24
         )
 
         self.internal_transition_block1 = nn.Sequential(
@@ -33,7 +33,7 @@ class CIFAR10Net(nn.Module):
         )
 
         self.internal_block2 = nn.Sequential(
-            DeepthSeparableBlock(in_channels=32, out_channels=64, kernel_size=(3,3), padding=1, dropout=dropout),  # in: 8x8x32 out: 8x8x64 rf: 54
+            InternalBlock(in_channels=32, out_channels=64, kernel_size=(3,3), padding=1, dropout=dropout),  # in: 8x8x32 out: 8x8x64 rf: 54
             InternalBlock(in_channels=64, out_channels=128, kernel_size=(3,3), padding=1, dropout=dropout),   # in:8x8x64 out: 8x8x128 rf: 56
         )
 

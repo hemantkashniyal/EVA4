@@ -9,10 +9,10 @@ from eva4.common import reset_seed, get_config, get_device
 DATA_CLASSES = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
 def get_mean_std():
-    data_mean = (0.5, 0.5, 0.5)
+    data_mean = (0.4914, 0.4822, 0.4465)    
     print("{} data_mean: {}".format("CIFAR10", data_mean))
 
-    data_std = (0.5, 0.5, 0.5)
+    data_std = (0.2470, 0.2435, 0.2616)
     print("{} data_std: {}".format("CIFAR10", data_std))
 
     return data_mean, data_std
