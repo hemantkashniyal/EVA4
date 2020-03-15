@@ -1,3 +1,4 @@
+import torch
 
 class L1Regularizer(object):
     KEY = "L1"
