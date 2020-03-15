@@ -68,7 +68,7 @@ class TrainingManager(object):
             loss = self.loss_fn(y_pred, target)
 
             if self.regularizer is not None:
-                loss = self.regularize(self.model)
+                loss = self.regularize(self.model, loss)
 
             self.train_losses.append(loss)
 
