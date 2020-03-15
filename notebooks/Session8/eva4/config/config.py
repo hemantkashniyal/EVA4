@@ -81,11 +81,11 @@ class RegularizerConfig(object):
             env = Env()
             env.read_env()
 
-        self.l1_enabled = env.bool("APP_REGULARIZER_L1_ENABLED", False):
+        self.l1_enabled = env.bool("APP_REGULARIZER_L1_ENABLED", False)
         if self.l1_enabled:
             self.l1_lambda = env.float("APP_REGULARIZER_L1_LAMBDA")
 
-        self.l2_enabled = env.bool("APP_REGULARIZER_L2_ENABLED", False):
+        self.l2_enabled = env.bool("APP_REGULARIZER_L2_ENABLED", False)
         if self.l1_enabled:
             self.l2_lambda = env.float("APP_REGULARIZER_L2_LAMBDA")
 
