@@ -67,7 +67,7 @@ from eva4.regularizer.regularizer_manager import RegularizerManager
 TrainingConfig.print(config.regularizer)
 regularizer = RegularizerManager.get_regularizer(config.regularizer)
 
-from eva4.training.training_manager import TrainingManage
+from eva4.training.training_manager import TrainingManager
 training = TrainingManager(config, dataset, network, loss, scheduler, optimizer, regularizer)
 training.start()
 training.summarize()
