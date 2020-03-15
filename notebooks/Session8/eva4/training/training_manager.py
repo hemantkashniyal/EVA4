@@ -89,13 +89,13 @@ class TrainingManager(object):
                 pred = output.argmax(dim=1, keepdim=True)  # get the index of the max log-probability
                 correct += pred.eq(target.view_as(pred)).sum().item()
 
-        test_loss /= len(test_loader.dataset)
+        test_loss /= len(self.dataset.test_loader.dataset)
         self.test_losses.append(test_loss)
 
         print('\nTest set: Average loss: {:.4f}, Accuracy: {}/{} ({:.2f}%)\n'.format(
-            test_loss, correct, len(test_loader.dataset),
-            100. * correct / len(test_loader.dataset)))
-        accuracy = 100. * correct / len(test_loader.dataset)
+            test_loss, correct, len(self.dataset.test_loader.dataset),
+            100. * correct / len(self.dataset.test_loader.dataset)))
+        accuracy = 100. * correct / len(self.dataset.test_loader.dataset)
         self.test_acc.append(accuracy)
         return accuracy
 
