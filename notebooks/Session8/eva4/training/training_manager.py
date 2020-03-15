@@ -82,7 +82,7 @@ class TrainingManager(object):
         test_loss = 0
         correct = 0
         with torch.no_grad():
-            for data, target in test_loader:
+            for data, target in self.dataset.test_loader:
                 data, target = data.to(self.device), target.to(self.device)
                 output = model(data)
                 test_loss += F.nll_loss(output, target, reduction='sum').item()  # sum up batch loss
@@ -98,3 +98,15 @@ class TrainingManager(object):
         accuracy = 100. * correct / len(test_loader.dataset)
         self.test_acc.append(accuracy)
         return accuracy
+
+
+    def summarize(self):
+        fig, axs = plt.subplots(2,2,figsize=(15,10))
+        axs[0, 0].plot(self.train_losses)
+        axs[0, 0].set_title("Training Loss")
+        axs[1, 0].plot(self.train_acc[4000:])
+        axs[1, 0].set_title("Training Accuracy")
+        axs[0, 1].plot(self.test_losses)
+        axs[0, 1].set_title("Test Loss")
+        axs[1, 1].plot(self.test_acc)
+        axs[1, 1].set_title("Test Accuracy")
