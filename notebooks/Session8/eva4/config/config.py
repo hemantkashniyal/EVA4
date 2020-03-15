@@ -76,7 +76,7 @@ class NetworkConfig(object):
         return json.loads(json_str)
 
 class RegularizerConfig(object):
-     def __init__(self, env=None):
+    def __init__(self, env=None):
         if env is None:
             env = Env()
             env.read_env()
