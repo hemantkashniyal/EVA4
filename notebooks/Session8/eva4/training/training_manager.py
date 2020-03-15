@@ -28,19 +28,22 @@ class TrainingManager(object):
         self.consecutive_desired_accuracy_remaining = self.config.consecutive_desired_accuracy
 
     def start(self):
-        for epoch in range(self.config.epochs):
-            print("EPOCH:", epoch)
-            self.train()
-            accuracy = self.test()
-            self.scheduler.step()
-            if self.config.break_on_reaching_desired_accuracy:
-                if accuracy >= self.config.desired_accuracy:
-                    self.consecutive_desired_accuracy_remaining -= 1
-                else:
-                    self.consecutive_desired_accuracy_remaining = self.config.consecutive_desired_accuracy
+        try:
+            for epoch in range(self.config.epochs):
+                print("EPOCH:", epoch)
+                self.train()
+                accuracy = self.test()
+                self.scheduler.step()
+                if self.config.break_on_reaching_desired_accuracy:
+                    if accuracy >= self.config.desired_accuracy:
+                        self.consecutive_desired_accuracy_remaining -= 1
+                    else:
+                        self.consecutive_desired_accuracy_remaining = self.config.consecutive_desired_accuracy
 
-                if self.consecutive_desired_accuracy_remaining == 0:
-                    break            
+                    if self.consecutive_desired_accuracy_remaining == 0:
+                        break   
+        except Exceptin as e:
+            print("Error: ", e)         
 
 
     def train(self):
