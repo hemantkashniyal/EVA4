@@ -20,6 +20,7 @@ class TrainingConfig(object):
         self.optimizer = self._get_optimizer_config(env)
         self.regularizer = RegularizerConfig(env)
    
+        self.loss_fn = LossFnConfig(env)
         self.network = NetworkConfig(self.dataset, env)
         
     def dict(self):
@@ -60,6 +61,17 @@ class TrainingConfig(object):
             return optimizer(env)        
         return None
 
+class LossFnConfig(object):
+    def __init__(self, env=None):
+        if env is None:
+            env = Env()
+            env.read_env()
+
+        self.type =  env("APP_LOSS_FN")
+
+    def dict(self):
+        json_str = json.dumps(self, default=lambda x: x.__dict__, sort_keys=False, indent=4)
+        return json.loads(json_str)
 
 class NetworkConfig(object):
     def __init__(self, dataset_config, env=None):
