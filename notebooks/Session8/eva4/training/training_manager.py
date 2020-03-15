@@ -31,7 +31,7 @@ class TrainingManager(object):
     def start(self):
         try:
             for epoch in range(self.config.epochs):
-                print("EPOCH:", epoch)
+                print("EPOCH:", epoch, flush=True)
                 self.train()
                 accuracy = self.test()
                 self.scheduler.step()
