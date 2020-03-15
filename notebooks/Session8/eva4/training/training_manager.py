@@ -21,7 +21,7 @@ class TrainingManager(object):
 
         self.train_losses = []
         self.train_acc = []
-        selftest_losses = []
+        self.test_losses = []
         self.test_acc = []
 
         self.consecutive_desired_accuracy_remaining = self.config.consecutive_desired_accuracy
