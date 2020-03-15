@@ -11,4 +11,5 @@ class SGDOptimizer(SGD):
             model.parameters(),
             lr=self.config.learning_rate,
             momentum=self.config.momentum,
+            weight_decay=self.config.weight_decay,
         )

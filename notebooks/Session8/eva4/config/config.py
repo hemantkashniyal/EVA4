@@ -18,6 +18,7 @@ class TrainingConfig(object):
         self.dataset = self._get_dataset_config(env)
         self.scheduler = self._get_scheduler_config(env)
         self.optimizer = self._get_optimizer_config(env)
+        self.regularizer = RegularizerConfig(env)
    
         self.network = NetworkConfig(self.dataset, env)
         
@@ -59,6 +60,7 @@ class TrainingConfig(object):
             return optimizer(env)        
         return None
 
+
 class NetworkConfig(object):
     def __init__(self, dataset_config, env=None):
         if env is None:
@@ -73,6 +75,24 @@ class NetworkConfig(object):
         json_str = json.dumps(self, default=lambda x: x.__dict__, sort_keys=False, indent=4)
         return json.loads(json_str)
 
+class RegularizerConfig(object):
+     def __init__(self, env=None):
+        if env is None:
+            env = Env()
+            env.read_env()
+
+        self.l1_enabled = env.bool("APP_REGULARIZER_L1_ENABLED", False):
+        if self.l1_enabled:
+            self.l1_lambda = env.float("APP_REGULARIZER_L1_LAMBDA")
+
+        self.l2_enabled = env.bool("APP_REGULARIZER_L2_ENABLED", False):
+        if self.l1_enabled:
+            self.l2_lambda = env.float("APP_REGULARIZER_L2_LAMBDA")
+
+    def dict(self):
+        json_str = json.dumps(self, default=lambda x: x.__dict__, sort_keys=False, indent=4)
+        return json.loads(json_str)
+        
 class SGDOptimizerConfig(object):
     def __init__(self, env=None):
         if env is None:
@@ -82,6 +102,9 @@ class SGDOptimizerConfig(object):
         self.type = "SGD"
         self.learning_rate = env.float("APP_OPTIMIZER_SGD_LEARNING_RATE")
         self.momentum = env.float("APP_OPTIMIZER_SGD_MOMENTUM")
+        self.weight_decay = env.float("APP_OPTIMIZER_SGD_WEIGHT_DECAY", 0)
+        if env.bool("APP_REGULARIZER_L2_ENABLED"):
+            self.weight_decay = env.float("APP_REGULARIZER_L2_LAMBDA")
 
     def dict(self):
         json_str = json.dumps(self, default=lambda x: x.__dict__, sort_keys=False, indent=4)
@@ -115,8 +138,6 @@ class MultiStepLRSchedulerConfig(object):
     def dict(self):
         json_str = json.dumps(self, default=lambda x: x.__dict__, sort_keys=False, indent=4)
         return json.loads(json_str)
-
-
 
 class CIFAR10DatasetConfig(object):
     def __init__(self, env=None):
