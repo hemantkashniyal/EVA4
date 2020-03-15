@@ -43,7 +43,7 @@ class TrainingManager(object):
 
                     if self.consecutive_desired_accuracy_remaining == 0:
                         break   
-        except Exceptin as e:
+        except Exception as e:
             print("Error: ", e)         
 
 
@@ -68,7 +68,7 @@ class TrainingManager(object):
             loss = self.loss_fn(y_pred, target)
 
             if self.regularizer is not None:
-                loss = self.regularize(self.model, loss)
+                loss = self.regularizer.regularize(self.model, loss)
 
             self.train_losses.append(loss)
 
