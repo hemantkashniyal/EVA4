@@ -9,11 +9,11 @@ from tqdm import tqdm
 
 
 class TrainingManager(object):
-    def __init__(self, config, dataset, model, loss, scheduler, optimizer):
+    def __init__(self, config, dataset, model, loss_fn, scheduler, optimizer):
         self.config = config
         self.dataset = dataset
         self.model = model
-        self.loss = loss
+        self.loss_fn = loss_fn
         self.scheduler = scheduler
         self.optimizer = optimizer
         self.device = torch.device(self.config.device)
@@ -61,11 +61,11 @@ class TrainingManager(object):
             y_pred = self.model(data)
 
             # Calculate loss
-            # loss = F.nll_loss(y_pred, target)
-            self.train_losses.append(self.loss)
+            loss = self.loss_fn(y_pred, target)
+            self.train_losses.append(loss)
 
             # Backpropagation
-            self.loss.backward()
+            loss.backward()
             self.optimizer.step()
 
             # Update pbar-tqdm
@@ -74,7 +74,7 @@ class TrainingManager(object):
             correct += pred.eq(target.view_as(pred)).sum().item()
             processed += len(data)
 
-            pbar.set_description(desc= f'Loss={self.loss.item()} Batch_id={batch_idx} Accuracy={100*correct/processed:0.2f}')
+            pbar.set_description(desc= f'Loss={loss.item()} Batch_id={batch_idx} Accuracy={100*correct/processed:0.2f}')
             accuracy = 100*correct/processed
             self.train_acc.append(accuracy)
 
