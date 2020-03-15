@@ -25,6 +25,10 @@ class TrainingConfig(object):
         json_str = json.dumps(self, default=lambda x: x.__dict__, sort_keys=False, indent=4)
         return json.loads(json_str)
 
+    @classmethod
+    def print(cls, config):
+        print("Config: ", json.dumps(config, default=lambda x: x.__dict__, sort_keys=False, indent=4))
+
     def _get_dataset_config(self, env):
         datasets = {
             "CIFAR10": CIFAR10DatasetConfig,
