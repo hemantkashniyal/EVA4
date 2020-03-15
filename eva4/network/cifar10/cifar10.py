@@ -1,18 +1,20 @@
-
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from .base import InternalBlock, TransitionBlock, GAPBlock, DeepthSeparableBlock
+from ..base import InternalBlock, TransitionBlock, GAPBlock, DeepthSeparableBlock
 
 class CIFAR10Net(nn.Module):
-    def __init__(self, dropout=0):
+    def __init__(self, network_config):
         super(CIFAR10Net, self).__init__()
+        self.config = network_config
 
-        dropout = 0.1
+        in_channel = self.config.input_channel
+        dropout = self.config.dropout
+        bias = self.config.bias_enabled
 
         self.input_block = nn.Sequential(
-            InternalBlock(in_channels=3, out_channels=16, kernel_size=(3,3), padding=1, dropout=dropout),   # in: 32x32x3 out: 32x32x16 rf: 3
+            InternalBlock(in_channels=in_channel, out_channels=16, kernel_size=(3,3), padding=1, dropout=dropout),   # in: 32x32x3 out: 32x32x16 rf: 3
             InternalBlock(in_channels=16, out_channels=32, kernel_size=(3,3), padding=1, dropout=dropout),  # in: 32x32x16 out: 32x32x32 rf:5
             InternalBlock(in_channels=32, out_channels=64, kernel_size=(3,3), padding=1, dilation=2, dropout=dropout),   # in: 32x32x32 out: 32x32x64 rf: 9
             DeepthSeparableBlock(in_channels=64, out_channels=128, kernel_size=(3,3), padding=1, dilation=2, dropout=dropout),   # in: 32x32x64 out: 32x32x128 rf: 11
