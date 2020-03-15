@@ -3,10 +3,8 @@ sys.path.append(os.getcwd())
 
 
 import json
-from torchsummary import summary
 from environs import Env
 
-from torchvision import datasets, transforms
 from eva4.config.config import TrainingConfig
 env = Env()
 env.read_env("./cifar10.experiment.env.txt", recurse=False)
@@ -24,20 +22,22 @@ input_size = config.dataset.input_size
 crop_size = config.dataset.input_dimension
 angle_std = 7 # in degrees
 
+dataset_std = config.dataset.dataset_std
+dataset_mean = config.dataset.dataset_mean
 
 # Define training transforms
 train_transforms = transforms.Compose([
     transforms.RandomCrop(32, padding=4),
     transforms.RandomHorizontalFlip(),
     transforms.ToTensor(),
-    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+    transforms.Normalize(dataset_mean, dataset_std),
 ])
 train_transforms = None
 
 # Define test transforms
 test_transforms = transforms.Compose([
     transforms.ToTensor(),
-    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+    transforms.Normalize(dataset_mean, dataset_std),
 ])
 test_transforms = None
 
