@@ -86,7 +86,7 @@ class RegularizerConfig(object):
             self.l1_lambda = env.float("APP_REGULARIZER_L1_LAMBDA")
 
         self.l2_enabled = env.bool("APP_REGULARIZER_L2_ENABLED", False)
-        if self.l1_enabled:
+        if self.l2_enabled:
             self.l2_lambda = env.float("APP_REGULARIZER_L2_LAMBDA")
 
     def dict(self):
