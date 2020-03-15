@@ -9,13 +9,14 @@ from tqdm import tqdm
 
 
 class TrainingManager(object):
-    def __init__(self, config, dataset, model, loss_fn, scheduler, optimizer):
+    def __init__(self, config, dataset, model, loss_fn, scheduler, optimizer, regularizer=None):
         self.config = config
         self.dataset = dataset
         self.model = model
         self.loss_fn = loss_fn
         self.scheduler = scheduler
         self.optimizer = optimizer
+        self.regularizer = regularizer
         self.device = torch.device(self.config.device)
 
         assert self.config.epochs > 0
@@ -65,6 +66,10 @@ class TrainingManager(object):
 
             # Calculate loss
             loss = self.loss_fn(y_pred, target)
+
+            if self.regularizer is not None:
+                loss = self.regularize(self.model)
+
             self.train_losses.append(loss)
 
             # Backpropagation
